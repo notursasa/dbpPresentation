@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareConnect - Presentation</title>
+    
+    <!-- Import Font: Inter untuk profesionalisme -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Corporate Color Palette */
+            --primary: #0F62FE;      /* IBM Blue - Trust & Tech */
+            --primary-dark: #0043CE;
+            --accent: #00BFA5;       /* Teal - Care & Growth */
+            --dark: #161616;         /* Neutral Dark */
+            --gray: #525252;         /* Text Gray */
+            --light: #F4F4F4;        /* Background Light */
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Mencegah scrollbar */
+            color: var(--dark);
+        }
+
+        /* Container Slide */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem 6rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: scale(0.98);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 4px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Layout Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            height: 100%;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Card Component */
+        .card {
+            background: var(--white);
+            border: 1px solid #E0E0E0;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(15, 98, 254, 0.1);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            background: rgba(0, 191, 165, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+        }
+
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--gray);
+        }
+
+        li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Process Flow Steps */
+        .process-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .process-step {
+            flex: 1;
+            background: var(--light);
+            padding: 2rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            border-top: 4px solid var(--primary);
+        }
+
+        .step-number {
+            background: var(--dark);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1rem auto;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(15, 98, 254, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: white;
+            border: 1px solid #E0E0E0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--dark);
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        /* Utility */
+        .text-center { text-align: center; }
+        .mb-2 { margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="prevSlide()"><i class="fas fa-arrow-left"></i></button>
+        <button class="control-btn" onclick="nextSlide()"><i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <!-- SLIDE 1: JUDUL -->
+    <div class="slide active">
+        <div class="grid-2">
+            <div>
+                <span class="tag">Digital Business Lab</span>
+                <h1>CareConnect</h1>
+                <p style="font-size: 1.5rem; font-weight: 300;">Bridging Care, Building Trust.</p>
+                
+                <div style="margin-top: 4rem; border-left: 4px solid var(--primary); padding-left: 1.5rem;">
+                    <p style="margin:0; font-weight: 700; color: var(--dark);">Group 7</p>
+                    <p style="margin:0.5rem 0 0 0;">Aisyah Raissa Algebra - 2702354092</p>
+                    <p style="margin:0;">Steven Lievandy - 2702261542</p>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <div style="width: 350px; height: 350px; background: linear-gradient(135deg, var(--light), #E3F2FD); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+                    <i class="fas fa-heart-pulse" style="font-size: 8rem; color: var(--primary);"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: BUSINESS IDEA (LATAR BELAKANG) -->
+    <div class="slide">
+        <span class="tag">Business Idea</span>
+        <h2>Latar Belakang Masalah</h2>
+        <div class="grid-2">
+            <div>
+                <p style="font-size: 1.4rem; font-weight: 600; color: var(--dark); margin-bottom: 2rem;">
+                    "Sulitnya menemukan perawat terpercaya untuk orang terkasih di tengah kesibukan modern."
+                </p>
+                <p>Masyarakat menghadapi 3 tantangan utama saat mencari perawat hewan atau lansia:</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="card" style="display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem;">
+                    <i class="fas fa-search-minus card-icon" style="margin:0; width: 50px; height: 50px; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3 style="margin:0; font-size: 1.2rem;">Inefisiensi</h3>
+                        <p style="margin:0; font-size: 1rem;">Proses manual yang memakan waktu lama.</p>
+                    </div>
+                </div>
+                <div class="card" style="display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem;">
+                    <i class="fas fa-user-lock card-icon" style="margin:0; width: 50px; height: 50px; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3 style="margin:0; font-size: 1.2rem;">Risiko Keamanan</h3>
+                        <p style="margin:0; font-size: 1rem;">Minimnya validasi identitas & keahlian perawat.</p>
+                    </div>
+                </div>
+                <div class="card" style="display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem;">
+                    <i class="fas fa-network-wired card-icon" style="margin:0; width: 50px; height: 50px; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3 style="margin:0; font-size: 1.2rem;">Konektivitas Terbatas</h3>
+                        <p style="margin:0; font-size: 1rem;">Sulitnya penyedia jasa profesional menjangkau klien.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: BUSINESS IDEA (SOLUSI) -->
+    <div class="slide">
+        <span class="tag">Business Idea</span>
+        <h2>Solusi: CareConnect Platform</h2>
+        <p style="max-width: 800px;">Marketplace jasa terintegrasi yang menghubungkan <strong>Care Seekers</strong> dengan <strong>Verified Care Givers</strong>.</p>
+        
+        <div class="grid-3" style="margin-top: 2rem;">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-check-double"></i></div>
+                <h3>Verified Trust</h3>
+                <p>Sistem "Gatekeeping" oleh Admin. Wajib upload KTP & Sertifikat sebelum bisa menerima pesanan.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-paw"></i></div>
+                <h3>Dual Focus</h3>
+                <p>Menyediakan dua vertikal layanan utama: <strong>Pet Care</strong> (Hewan) dan <strong>Elderly Care</strong> (Lansia).</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-wallet"></i></div>
+                <h3>Professional Growth</h3>
+                <p>Membantu mitra (Provider) mengelola layanan dan memantau pendapatan secara transparan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: BUSINESS PROCESS (SEEKER) -->
+    <div class="slide">
+        <span class="tag">Business Process</span>
+        <h2>Alur: Pencari Jasa (Seeker)</h2>
+        <div class="process-row">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Register</h3>
+                <p style="font-size: 0.95rem;">Buat akun & Login ke platform.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Discover</h3>
+                <p style="font-size: 0.95rem;">Cari layanan & Filter berdasarkan Lokasi/Kategori.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Booking</h3>
+                <p style="font-size: 0.95rem;">Pilih tanggal, kirim request, & terima konfirmasi.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Service</h3>
+                <p style="font-size: 0.95rem;">Layanan dijalankan oleh Provider.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: BUSINESS PROCESS (PROVIDER) -->
+    <div class="slide">
+        <span class="tag">Business Process</span>
+        <h2>Alur: Penyedia Jasa (Provider)</h2>
+        <div class="process-row">
+            <div class="process-step" style="border-color: var(--accent);">
+                <div class="step-number">1</div>
+                <h3>Onboarding</h3>
+                <p style="font-size: 0.95rem;">Upload Dokumen Verifikasi ke Admin.</p>
+            </div>
+            <div class="process-step" style="border-color: var(--accent);">
+                <div class="step-number">2</div>
+                <h3>Manage</h3>
+                <p style="font-size: 0.95rem;">CRUD Layanan (Tambah Jenis & Harga).</p>
+            </div>
+            <div class="process-step" style="border-color: var(--accent);">
+                <div class="step-number">3</div>
+                <h3>Action</h3>
+                <p style="font-size: 0.95rem;">Terima (Accept) atau Tolak (Reject) Pesanan.</p>
+            </div>
+            <div class="process-step" style="border-color: var(--accent);">
+                <div class="step-number">4</div>
+                <h3>Income</h3>
+                <p style="font-size: 0.95rem;">Selesaikan pesanan & Pantau Pendapatan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: BUSINESS PROCESS (ADMIN) -->
+    <div class="slide">
+        <span class="tag">Business Process</span>
+        <h2>Alur: Administrator</h2>
+        <div class="grid-2">
+            <div class="card" style="border-left: 5px solid var(--primary);">
+                <h3><i class="fas fa-shield-alt" style="margin-right: 10px;"></i> Verifikasi (Gatekeeping)</h3>
+                <p>Admin meninjau dokumen pendaftaran setiap Provider. Akun hanya aktif jika dokumen valid.</p>
+                <p style="font-size: 0.9rem; margin-top: 1rem; color: var(--primary);"><em>*Kunci keamanan CareConnect.</em></p>
+            </div>
+            <div class="card" style="border-left: 5px solid var(--dark);">
+                <h3><i class="fas fa-desktop" style="margin-right: 10px;"></i> Monitoring Platform</h3>
+                <p>Admin memiliki hak penuh untuk melihat seluruh daftar pengguna dan memantau status transaksi yang sedang berjalan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: KEY USER STORIES -->
+    <div class="slide">
+        <span class="tag">Key User Stories</span>
+        <h2>Fitur Utama (Requirements)</h2>
+        <div class="grid-3">
+            <!-- Seeker -->
+            <div class="card">
+                <h3 style="color: var(--dark); border-bottom: 1px solid #eee; padding-bottom: 1rem;">Seeker</h3>
+                <ul style="margin-top: 1rem;">
+                    <li>Register & Login Akun.</li>
+                    <li>Filter Pencarian (Lokasi & Kategori).</li>
+                    <li>Lihat Profil Detail Provider.</li>
+                    <li>Booking Layanan & Cek Status.</li>
+                </ul>
+            </div>
+            <!-- Provider -->
+            <div class="card">
+                <h3 style="color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 1rem;">Provider</h3>
+                <ul style="margin-top: 1rem;">
+                    <li>Upload Dokumen Verifikasi.</li>
+                    <li>Kelola Layanan (Harga/Deskripsi).</li>
+                    <li>Terima/Tolak Booking Masuk.</li>
+                    <li><strong>Dashboard Pendapatan.</strong></li>
+                </ul>
+            </div>
+            <!-- Admin -->
+            <div class="card">
+                <h3 style="color: var(--accent); border-bottom: 1px solid #eee; padding-bottom: 1rem;">Admin</h3>
+                <ul style="margin-top: 1rem;">
+                    <li>Validasi Dokumen (Approve/Reject).</li>
+                    <li>Manajemen User (Blokir Akun).</li>
+                    <li>Monitoring Transaksi.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: CLOSING -->
+    <div class="slide">
+        <div class="text-center">
+            <div style="font-size: 5rem; color: var(--primary); margin-bottom: 2rem;">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <h1>Terima Kasih</h1>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update Progress Bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Init
+        updateSlide();
+    </script>
+</body>
+</html>
+```
